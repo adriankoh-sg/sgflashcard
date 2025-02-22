@@ -1,12 +1,13 @@
 import Image from 'next/image';
 import { homePageContent } from '@constant/staticPagesContent';
 import { Button } from '@/components/ui/button';
+import Link from 'next/link';
 
 export default function Home() {
   return (
-    <section className="overflow-hidden py-32 px-2 flex items-center justify-center">
+    <section className="overflow-hidden py-32 px-2 flex justify-center items-center ">
       <div className="container">
-        <div className="flex flex-col gap-5">
+        <div className="flex flex-col gap-4">
           <div className="relative flex flex-col gap-5">
             <div
               style={{
@@ -29,9 +30,9 @@ export default function Home() {
             </p>
             <div className="flex flex-col items-center justify-center gap-3 pb-12 pt-3">
               <Button size="lg" asChild>
-                <a href={homePageContent.button.url}>
+                <Link href={'/auth'}>
                   {homePageContent.button.text} {homePageContent.button.icon}
-                </a>
+                </Link>
               </Button>
               {homePageContent.trustText && (
                 <div className="text-xs text-muted-foreground">
@@ -40,16 +41,18 @@ export default function Home() {
               )}
             </div>
           </div>
-          <Image
-            src={homePageContent.imageSrc}
-            alt={homePageContent.imageAlt}
-            width={500}
-            height={500}
-            className="mx-auto h-full max-h-[524px] w-full max-w-screen-lg rounded-2xl object-cover"
-          />
-          <div className="flex flex-row text-xs text-muted-foreground space-x-2">
-            {homePageContent.mail.icon}
-            {homePageContent.mail.email}
+          <div className="relative flex flex-col mx-auto h-full max-h-[524px] w-full max-w-screen-lg gap-4">
+            <Image
+              src={homePageContent.imageSrc}
+              alt={homePageContent.imageAlt}
+              width={500}
+              height={500}
+              className="mx-auto h-full max-h-[524px] w-full max-w-screen-lg rounded-2xl object-cover"
+            />
+            <div className="flex flex-row text-xs text-muted-foreground gap-2">
+              {homePageContent.mail.icon}
+              {homePageContent.mail.email}
+            </div>
           </div>
         </div>
       </div>
