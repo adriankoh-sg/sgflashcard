@@ -1,7 +1,9 @@
+'use client';
 import Image from 'next/image';
 import { homePageContent } from '@constant/staticPagesContent';
-import { Button } from '@/components/ui/button';
+import { Button } from '@components/ui/button';
 import Link from 'next/link';
+import { seed } from '@/db/seed';
 
 export default function Home() {
   return (
@@ -53,6 +55,14 @@ export default function Home() {
               {homePageContent.mail.icon}
               {homePageContent.mail.email}
             </div>
+            <Button
+              variant="outline"
+              title="Seed"
+              onClick={() => {
+                console.log('--- seed ---');
+                seed();
+              }}
+            />
           </div>
         </div>
       </div>
