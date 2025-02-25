@@ -1,6 +1,6 @@
 import { Users } from 'lucide-react';
 import { LoginForm } from '@components/auth/login-form';
-import { appConfig } from '@/libs/constant/appConfig';
+import { appConfig } from '@constant/appConfig';
 
 export default function LoginPage() {
   return (
