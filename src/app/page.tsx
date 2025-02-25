@@ -55,14 +55,6 @@ export default function Home() {
               {homePageContent.mail.icon}
               {homePageContent.mail.email}
             </div>
-            <Button
-              variant="outline"
-              title="Seed"
-              onClick={() => {
-                console.log('--- seed ---');
-                seed();
-              }}
-            />
           </div>
         </div>
       </div>

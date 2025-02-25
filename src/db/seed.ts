@@ -1,18 +1,17 @@
+'use server';
 import { Sequelize } from 'sequelize';
-import mysql2 from 'mysql2';
+import { dbConfig } from '@db/dbConfig';
 
 export const seed = async () => {
   console.log('+++ Hello I am here ++');
   const sequelize = new Sequelize(
-    process.env.MYSQL_DATABASE || 'main',
-    process.env.MYSQL_USER || 'root',
-    process.env.MYSQL_PASSWORD,
+    dbConfig.database,
+    dbConfig.username,
+    dbConfig.password,
     {
-      host: 'mysql_db', // docker container name
-      port: 3306,
-      dialect: 'mysql',
-      dialectModule: mysql2,
-      ssl: false,
+      host: dbConfig.host,
+      port: dbConfig.port,
+      dialect: 'mariadb',
     }
   );
 

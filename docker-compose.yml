@@ -1,13 +1,10 @@
 services:
-  mysql:
-    image: mysql:8.4
-    container_name: mysql_db
+  mariadb:
+    image: mariadb:10.6.21
+    container_name: mariadb
     restart: always
     environment:
-      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
-      MYSQL_DATABASE: ${MYSQL_DATABASE}
-      MYSQL_USER: ${MYSQL_USER}
-      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      MARIADB_ROOT_PASSWORD: r00tP@ssw0rd!
     ports:
       - '3306:3306'
     volumes:
@@ -20,7 +17,7 @@ services:
     ports:
       - '8080:8080'
     depends_on:
-      - mysql
+      - mariadb
 
 volumes:
   db_data:
