@@ -3,7 +3,7 @@ import Image from 'next/image';
 import { homePageContent } from '@constant/staticPagesContent';
 import { Button } from '@components/ui/button';
 import Link from 'next/link';
-import { seed } from '@/db/seed';
+import { URLS } from '@/constant/appConfig';
 
 export default function Home() {
   return (
@@ -32,7 +32,7 @@ export default function Home() {
             </p>
             <div className="flex flex-col items-center justify-center gap-3 pb-12 pt-3">
               <Button size="lg" asChild>
-                <Link href={'/auth'}>
+                <Link href={URLS.signIn}>
                   {homePageContent.button.text} {homePageContent.button.icon}
                 </Link>
               </Button>

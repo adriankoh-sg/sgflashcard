@@ -9,6 +9,7 @@ import { signUpWithEmailPassword } from '@actions/auth';
 import Form from 'next/form';
 import { toast } from 'sonner';
 import { AuthFooter } from './footer';
+import { useRouter } from 'next/navigation';
 
 export function SignUpForm({
   className,
@@ -18,15 +19,22 @@ export function SignUpForm({
     signUpWithEmailPassword,
     undefined
   );
+  const router = useRouter();
 
-  console.log({ state, signUpAction, isPending });
   useEffect(() => {
+    console.log({ state });
     if (state?.firebaseError) {
-      toast('An error has occurred', {
+      toast.error('An error has occurred', {
         description: state.firebaseError,
       });
     }
-  }, [state]);
+    if (state?.success) {
+      toast.success('Account created successfully', {
+        description: `A verification link has been sent to your email ${state?.email}.`,
+      });
+      router.push('/');
+    }
+  }, [router, state]);
 
   return (
     <div className={cn('flex flex-col gap-6', className)} {...props}>
@@ -93,7 +101,7 @@ export function SignUpForm({
                     </div>
                   )}
                 </div>
-                <Button type="submit" className="w-full">
+                <Button type="submit" className="w-full" disabled={isPending}>
                   Register
                 </Button>
               </div>

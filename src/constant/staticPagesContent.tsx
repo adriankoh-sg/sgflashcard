@@ -1,5 +1,5 @@
 import { BookOpen, Mail, Zap } from 'lucide-react';
-import { appConfig } from '@constant/appConfig';
+import { APP_CONFIG } from '@constant/appConfig';
 import Link from 'next/link';
 
 export const homePageContent = {
@@ -15,6 +15,6 @@ export const homePageContent = {
   imageAlt: 'placeholder',
   mail: {
     icon: <Mail className="size-4" />,
-    email: <Link href={`mailto:${appConfig.email}`}>{appConfig.email}</Link>,
+    email: <Link href={`mailto:${APP_CONFIG.email}`}>{APP_CONFIG.email}</Link>,
   },
 };

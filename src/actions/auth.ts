@@ -1,5 +1,10 @@
 'use server';
-import { AuthErrorCodes, createUserWithEmailAndPassword } from 'firebase/auth';
+import {
+  applyActionCode,
+  AuthErrorCodes,
+  createUserWithEmailAndPassword,
+  sendEmailVerification,
+} from 'firebase/auth';
 import { firebaseAuth } from '@/libs/firebase';
 import { SignUpFormSchema } from './rules';
 import { FirebaseError } from 'firebase/app';
@@ -14,6 +19,7 @@ interface IReturnType {
   displayName?: string;
   email?: string;
   firebaseError?: string;
+  success?: boolean;
 }
 
 export async function signUpWithEmailPassword(
@@ -46,16 +52,18 @@ export async function signUpWithEmailPassword(
     );
 
     // Signed up
-    const {
-      user: { uid },
-      providerId,
-      operationType,
-    } = userCredential;
-    console.log({
-      uid,
-      providerId,
-      operationType,
-    });
+
+    const actionCodeSettings = {
+      url: 'http://localhost:3000/signIn',
+    };
+
+    await sendEmailVerification(userCredential.user, actionCodeSettings);
+    return {
+      success: true,
+      displayName,
+      email,
+    };
+    // await applyActionCode(firebaseAuth, actionCodeSettings);
   } catch (error) {
     const errorCode = (error as FirebaseError).code;
 

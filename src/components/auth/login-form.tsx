@@ -13,6 +13,7 @@ import { Label } from '@components/ui/label';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { AuthFooter } from './footer';
+import { URLS } from '@/constant/appConfig';
 
 export function LoginForm({
   className,
@@ -89,7 +90,10 @@ export function LoginForm({
               </div>
               <div className="text-center text-sm">
                 Don&apos;t have an account?{' '}
-                <Link href="/signUp" className="underline underline-offset-4">
+                <Link
+                  href={URLS.signUp}
+                  className="underline underline-offset-4"
+                >
                   Sign up
                 </Link>
               </div>

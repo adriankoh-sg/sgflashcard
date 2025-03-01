@@ -1,5 +1,5 @@
 import { Users } from 'lucide-react';
-import { appConfig } from '@constant/appConfig';
+import { APP_CONFIG } from '@constant/appConfig';
 import { SignUpForm } from '@components/auth/signup-form';
 
 export default function SignUpPage() {
@@ -10,7 +10,7 @@ export default function SignUpPage() {
           <div className="flex h-6 w-6 items-center justify-center rounded-md bg-primary text-primary-foreground">
             <Users className="size-4" />
           </div>
-          {appConfig.company}
+          {APP_CONFIG.company}
         </a>
         <SignUpForm />
       </div>
