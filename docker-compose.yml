@@ -1,14 +1,16 @@
 services:
-  mariadb:
-    image: mariadb:10.6.21
-    container_name: mariadb
+  postgres:
+    image: postgres:17.4
+    container_name: postgres
     restart: always
     environment:
-      MARIADB_ROOT_PASSWORD: r00tP@ssw0rd!
+      POSTGRES_USER: ${DATABASE_USER}
+      POSTGRES_PASSWORD: ${DATABASE_PASSWORD}
+      POSTGRES_DB: ${DATABASE_NAME}
     ports:
-      - '3306:3306'
+      - '5432:5432'
     volumes:
-      - ./db_data:/var/lib/mysql
+      - ./db_data:/var/lib/postgresql/data
 
   adminer:
     image: adminer:4.8.1
@@ -17,7 +19,7 @@ services:
     ports:
       - '8080:8080'
     depends_on:
-      - mariadb
+      - postgres
 
 volumes:
   db_data:

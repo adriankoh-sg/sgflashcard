@@ -1,12 +1,12 @@
 'use server';
 import {
-  applyActionCode,
   AuthErrorCodes,
   createUserWithEmailAndPassword,
   sendEmailVerification,
+  signInWithEmailAndPassword,
 } from 'firebase/auth';
 import { firebaseAuth } from '@/libs/firebase';
-import { SignUpFormSchema } from './rules';
+import { SignInFormSchema, SignUpFormSchema } from './rules';
 import { FirebaseError } from 'firebase/app';
 
 interface IReturnType {
@@ -78,5 +78,39 @@ export async function signUpWithEmailPassword(
     return {
       firebaseError: 'An error occurred while signing up.',
     };
+  }
+}
+
+export async function signInAction(
+  state,
+  formData: FormData
+): Promise<IReturnType | undefined> {
+  const email = formData.get('email') as string;
+  const password = formData.get('password') as string;
+
+  const validatedFields = SignInFormSchema.safeParse({
+    email,
+    password,
+  });
+
+  if (!validatedFields.success) {
+    return {
+      errors: validatedFields.error.flatten().fieldErrors,
+      email,
+    };
+  }
+
+  try {
+    const result = await signInWithEmailAndPassword(
+      firebaseAuth,
+      email,
+      password
+    );
+
+    console.log('From Firebase:', result);
+  } catch (error) {
+    const errorCode = (error as FirebaseError).code;
+
+    console.log('From firebase: ', errorCode, error);
   }
 }

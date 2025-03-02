@@ -1,6 +1,6 @@
 import { Users } from 'lucide-react';
 import { LoginForm } from '@components/auth/login-form';
-import { APP_CONFIG } from '@constant/appConfig';
+import { COMPANY } from '@constant/appConfig';
 
 export default function LoginPage() {
   return (
@@ -10,7 +10,7 @@ export default function LoginPage() {
           <div className="flex h-6 w-6 items-center justify-center rounded-md bg-primary text-primary-foreground">
             <Users className="size-4" />
           </div>
-          {APP_CONFIG.company}
+          {COMPANY}
         </a>
         <LoginForm />
       </div>

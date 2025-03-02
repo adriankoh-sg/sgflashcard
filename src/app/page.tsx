@@ -3,7 +3,7 @@ import Image from 'next/image';
 import { homePageContent } from '@constant/staticPagesContent';
 import { Button } from '@components/ui/button';
 import Link from 'next/link';
-import { URLS } from '@/constant/appConfig';
+import { SIGN_IN } from '@constant/routes';
 
 export default function Home() {
   return (
@@ -32,7 +32,7 @@ export default function Home() {
             </p>
             <div className="flex flex-col items-center justify-center gap-3 pb-12 pt-3">
               <Button size="lg" asChild>
-                <Link href={URLS.signIn}>
+                <Link href={SIGN_IN}>
                   {homePageContent.button.text} {homePageContent.button.icon}
                 </Link>
               </Button>

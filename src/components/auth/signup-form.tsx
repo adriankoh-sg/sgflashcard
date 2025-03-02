@@ -2,7 +2,7 @@
 import { useActionState, useEffect } from 'react';
 import { cn } from '@libs/utils';
 import { Button } from '@components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle } from '@components/ui/card';
 import { Input } from '@components/ui/input';
 import { Label } from '@components/ui/label';
 import { signUpWithEmailPassword } from '@actions/auth';
@@ -22,7 +22,6 @@ export function SignUpForm({
   const router = useRouter();
 
   useEffect(() => {
-    console.log({ state });
     if (state?.firebaseError) {
       toast.error('An error has occurred', {
         description: state.firebaseError,

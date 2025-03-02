@@ -1,43 +1,72 @@
-DROP DATABASE IF EXISTS `sgflashcard_db`;
-CREATE DATABASE `sgflashcard_db`;
-CREATE USER 'admin'@'%' IDENTIFIED BY 'adminP@55w0rd!Ok';
-GRANT ALL PRIVILEGES ON `sgflashcard_db`.* TO 'admin'@'%';
-FLUSH PRIVILEGES;
+-- Adminer 4.8.1 PostgreSQL 17.4 (Debian 17.4-1.pgdg120+2) dump
 
-USE `sgflashcard_db`;
-
-SET NAMES utf8;
-SET time_zone = '+00:00';
-SET foreign_key_checks = 0;
-SET sql_mode = 'NO_AUTO_VALUE_ON_ZERO';
-
-SET NAMES utf8mb4;
-
--- flashcard module
-DROP TABLE IF EXISTS `fashcard`;
-CREATE TABLE `fashcard` (
-  `id` mediumint(8) unsigned NOT NULL AUTO_INCREMENT,
-  `content` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL CHECK (json_valid(`content`)),
-  `subject` varchar(32) NOT NULL,
-  `level` varchar(32) NOT NULL,
-  `owner` int(11) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+DROP TABLE IF EXISTS "flashcards";
+CREATE TABLE "public"."flashcards" (
+    "id" integer DEFAULT GENERATED ALWAYS AS IDENTITY NOT NULL,
+    "content" json NOT NULL,
+    "subject" character varying(32) NOT NULL,
+    "level" character varying(32) NOT NULL,
+    "creatorId" integer NOT NULL,
+    "createdAt" timestamptz,
+    "updatedAt" timestamptz,
+    CONSTRAINT "flashcards_pkey" PRIMARY KEY ("id")
+) WITH (oids = false);
 
 
-DROP TABLE IF EXISTS `lesson`;
-CREATE TABLE `lesson` (
-  `id` mediumint(8) unsigned NOT NULL AUTO_INCREMENT,
-  `title` varchar(32) NOT NULL,
-  `description` varchar(225) NOT NULL,
-  `flashcards` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL CHECK (json_valid(`flashcards`)),
-  `subject` varchar(32) NOT NULL,
-  `owner` int(11) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+DROP TABLE IF EXISTS "lessons";
+CREATE TABLE "public"."lessons" (
+    "id" integer DEFAULT GENERATED ALWAYS AS IDENTITY NOT NULL,
+    "title" character varying(128) NOT NULL,
+    "description" character varying(255) NOT NULL,
+    "flashcards" json NOT NULL,
+    "subject" character varying(32) NOT NULL,
+    "level" character varying(32) NOT NULL,
+    "creatorId" integer NOT NULL,
+    "createdAt" timestamptz,
+    "updatedAt" timestamptz,
+    CONSTRAINT "lessons_pkey" PRIMARY KEY ("id")
+) WITH (oids = false);
 
 
-DROP TABLE IF EXISTS `subject`;
-CREATE TABLE `subject` (
-  `title` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL CHECK (json_valid(`title`))
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+DROP TABLE IF EXISTS "levels";
+CREATE TABLE "public"."levels" (
+    "content" json NOT NULL
+) WITH (oids = false);
+
+
+DROP TABLE IF EXISTS "sessions";
+CREATE TABLE "public"."sessions" (
+    "id" integer DEFAULT GENERATED ALWAYS AS IDENTITY NOT NULL,
+    "userId" integer NOT NULL,
+    "token" character varying(255) NOT NULL,
+    "loginAt" timestamptz,
+    CONSTRAINT "sessions_pkey" PRIMARY KEY ("id"),
+    CONSTRAINT "sessions_userId_unique" UNIQUE ("userId")
+) WITH (oids = false);
+
+
+DROP TABLE IF EXISTS "subjects";
+CREATE TABLE "public"."subjects" (
+    "content" json NOT NULL
+) WITH (oids = false);
+
+
+DROP TABLE IF EXISTS "users";
+CREATE TABLE "public"."users" (
+    "id" integer DEFAULT GENERATED ALWAYS AS IDENTITY NOT NULL,
+    "name" character varying(128) NOT NULL,
+    "email" character varying(255) NOT NULL,
+    "password" character varying(255) NOT NULL,
+    "salt" character varying(255) NOT NULL,
+    "avatar" character varying(255) NOT NULL,
+    "role" character varying(32) NOT NULL,
+    CONSTRAINT "users_email_unique" UNIQUE ("email"),
+    CONSTRAINT "users_pkey" PRIMARY KEY ("id")
+) WITH (oids = false);
+
+
+ALTER TABLE ONLY "public"."flashcards" ADD CONSTRAINT "flashcards_creatorId_users_id_fk" FOREIGN KEY ("creatorId") REFERENCES users(id) NOT DEFERRABLE;
+
+ALTER TABLE ONLY "public"."lessons" ADD CONSTRAINT "lessons_creatorId_users_id_fk" FOREIGN KEY ("creatorId") REFERENCES users(id) NOT DEFERRABLE;
+
+ALTER TABLE ONLY "public"."sessions" ADD CONSTRAINT "sessions_userId_users_id_fk" FOREIGN KEY ("userId") REFERENCES users(id) NOT DEFERRABLE;

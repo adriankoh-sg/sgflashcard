@@ -1,24 +1,15 @@
 'use server';
-import { Sequelize } from 'sequelize';
-import { dbConfig } from '@db/dbConfig';
+import 'dotenv/config';
+import { drizzle } from 'drizzle-orm/node-postgres';
+
+// You can specify any property from the node-postgres connection options
+const db = drizzle({
+  connection: {
+    connectionString: process.env.DATABASE_URL!,
+    ssl: true,
+  },
+});
 
 export const seed = async () => {
   console.log('+++ Hello I am here ++');
-  const sequelize = new Sequelize(
-    dbConfig.database,
-    dbConfig.username,
-    dbConfig.password,
-    {
-      host: dbConfig.host,
-      port: dbConfig.port,
-      dialect: 'mariadb',
-    }
-  );
-
-  try {
-    await sequelize.authenticate();
-    console.log('Connection has been established successfully.');
-  } catch (error) {
-    console.error('Unable to connect to the database:', error);
-  }
 };

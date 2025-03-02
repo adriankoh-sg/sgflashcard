@@ -27,3 +27,14 @@ export const SignUpFormSchema = z
       return { confirmPassword: 'Passwords do not match' };
     }
   });
+
+export const SignInFormSchema = z.object({
+  email: z
+    .string()
+    .email({ message: 'Invalid email address' })
+    .nonempty({ message: 'Email is required' }),
+  password: z
+    .string()
+    .nonempty({ message: 'Password is required' })
+    .min(6, { message: 'Password must be at least 6 characters' }),
+});
