@@ -1,9 +1,8 @@
 import { Users } from 'lucide-react';
 import { COMPANY } from '@constant/appConfig';
-import { SignUpForm } from '@components/auth/signup-form';
-import { HOME_PAGE } from '@constant/routes';
+import { HOME_PAGE } from '@/constant/routes';
 
-export default function SignUpPage() {
+export default function LoginPage() {
   return (
     <div className="flex min-h-svh flex-col items-center justify-center gap-6 bg-muted p-6 md:p-10">
       <div className="flex w-full max-w-sm flex-col gap-6">
@@ -16,7 +15,7 @@ export default function SignUpPage() {
           </div>
           {COMPANY}
         </a>
-        <SignUpForm />
+        <h1 className="text-2xl">Reset Password</h1>
       </div>
     </div>
   );

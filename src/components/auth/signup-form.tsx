@@ -22,9 +22,9 @@ export function SignUpForm({
   const router = useRouter();
 
   useEffect(() => {
-    if (state?.firebaseError) {
+    if (state?.verificationFail) {
       toast.error('An error has occurred', {
-        description: state.firebaseError,
+        description: state.verificationFail,
       });
     }
     if (state?.success) {

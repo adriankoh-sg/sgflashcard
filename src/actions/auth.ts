@@ -8,6 +8,8 @@ import {
 import { firebaseAuth } from '@/libs/firebase';
 import { SignInFormSchema, SignUpFormSchema } from './rules';
 import { FirebaseError } from 'firebase/app';
+import { sendVerificationEmail } from '@/libs/emailUtils';
+import { BASE_URL, VERIFY_EMAIL } from '@/constant/routes';
 
 interface IReturnType {
   errors?: {
@@ -18,8 +20,8 @@ interface IReturnType {
   };
   displayName?: string;
   email?: string;
-  firebaseError?: string;
   success?: boolean;
+  verificationFail?: string;
 }
 
 export async function signUpWithEmailPassword(
@@ -45,38 +47,15 @@ export async function signUpWithEmailPassword(
   }
 
   try {
-    const userCredential = await createUserWithEmailAndPassword(
-      firebaseAuth,
-      email,
-      formData.get('password') as string
-    );
-
-    // Signed up
-
-    const actionCodeSettings = {
-      url: 'http://localhost:3000/signIn',
-    };
-
-    await sendEmailVerification(userCredential.user, actionCodeSettings);
-    return {
-      success: true,
-      displayName,
-      email,
-    };
-    // await applyActionCode(firebaseAuth, actionCodeSettings);
+    const verificationUrl = `${BASE_URL}${VERIFY_EMAIL.replace(
+      '{{uid}}',
+      '1'
+    )}`;
+    await sendVerificationEmail(email, verificationUrl);
   } catch (error) {
-    const errorCode = (error as FirebaseError).code;
-
-    if (errorCode === AuthErrorCodes.EMAIL_EXISTS) {
-      console.error({ errorCode });
-      return {
-        firebaseError:
-          'The email address is already in use by another account.',
-      };
-    }
-
+    console.error({ error });
     return {
-      firebaseError: 'An error occurred while signing up.',
+      verificationFail: 'Sent email verification failed.',
     };
   }
 }

@@ -14,13 +14,15 @@ import {
   pgTable,
   varchar,
   timestamp,
+  boolean,
 } from 'drizzle-orm/pg-core';
 
 /** Users Module */
 export const usersTable = pgTable('users', {
-  id: integer().primaryKey().generatedAlwaysAsIdentity(),
+  uid: integer().primaryKey().generatedAlwaysAsIdentity(),
   name: varchar({ length: 128 }).notNull(),
   email: varchar({ length: 255 }).notNull().unique(),
+  isEmailVerified: boolean().notNull().default(false),
   password: varchar({ length: 255 }).notNull(),
   salt: varchar({ length: 255 }).notNull(),
   avatar: varchar({ length: 255 }).notNull(),
@@ -32,7 +34,7 @@ export const sessionsTable = pgTable('sessions', {
   userId: integer()
     .notNull()
     .unique()
-    .references(() => usersTable.id),
+    .references(() => usersTable.uid),
   token: varchar({ length: 255 }).notNull(),
   loginAt: timestamp({ withTimezone: true }),
 });
@@ -45,7 +47,7 @@ export const flashcardTable = pgTable('flashcards', {
   level: varchar({ length: 32 }).notNull(),
   creatorId: integer()
     .notNull()
-    .references(() => usersTable.id),
+    .references(() => usersTable.uid),
   createdAt: timestamp({ withTimezone: true }),
   updatedAt: timestamp({ withTimezone: true }),
 });
@@ -59,7 +61,7 @@ export const lessonTable = pgTable('lessons', {
   level: varchar({ length: 32 }).notNull(),
   creatorId: integer()
     .notNull()
-    .references(() => usersTable.id),
+    .references(() => usersTable.uid),
   createdAt: timestamp({ withTimezone: true }),
   updatedAt: timestamp({ withTimezone: true }),
 });
