@@ -41,12 +41,38 @@ export const sendEmail = async ({
   }
 };
 
+const verifyEmailBody = (email: string, verifyLink: string) => {
+  return {
+    html: `
+      Welcome to ${APP_NAME}!<br />
+      <br />Please click the link to verify your email: <b>${email}</b> and activate your account:<br />
+      <br />
+      <a href='${verifyLink}'>Verify Email</a>
+      <br />
+      <hr />
+      <br />Yours sincerely,<br/>
+      <br />
+      ${APP_NAME} support
+      <br />
+      < This is an auto-generated email, do not reply >
+      `,
+    text: `
+      Welcome to ${APP_NAME}!\n
+      Please copy the link and open it in new browser:\n
+      \n${verifyLink}\n
+      \n
+      \nYours sincerely,
+      \n${APP_NAME} support
+      \n< This is an auto-generated email, do not reply >
+      `,
+  };
+};
+
 export const sendVerificationEmail = async (
   sendTo: string,
   verifyUrl: string
 ) => {
-  const subject = `${APP_NAME} - Verify your email`;
-  const text = `Copy this link and open it on a browser ${verifyUrl}`;
-  const html = `Click the link to verify your email <a href='${verifyUrl}'>${verifyUrl}</a>`;
-  await sendEmail({ sendTo, subject, html, text });
+  const subject = `${APP_NAME} - Verify your email address`;
+  const content = verifyEmailBody(sendTo, verifyUrl);
+  await sendEmail({ sendTo, subject, html: content.html, text: content.text });
 };

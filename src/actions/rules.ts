@@ -11,9 +11,9 @@ export const SignUpFormSchema = z
       })
       .regex(/[0-9]/, { message: 'Password must contain at least one number' })
       .trim(),
-    displayName: z
+    name: z
       .string()
-      .min(3, { message: 'Display name must be at least 3 characters' })
+      .min(3, { message: 'Name must be at least 3 characters' })
       .trim(),
     confirmPassword: z.string().trim(),
   })

@@ -1,7 +1,7 @@
 import { NextResponse, type NextRequest } from 'next/server';
 
 export async function middleware(request: NextRequest) {
-  console.log('Middleware request', request);
+  console.log('-- Middleware request', request);
 }
 
 export const config = {

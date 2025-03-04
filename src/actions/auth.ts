@@ -1,64 +1,76 @@
 'use server';
-import {
-  AuthErrorCodes,
-  createUserWithEmailAndPassword,
-  sendEmailVerification,
-  signInWithEmailAndPassword,
-} from 'firebase/auth';
+import { signInWithEmailAndPassword } from 'firebase/auth';
 import { firebaseAuth } from '@/libs/firebase';
 import { SignInFormSchema, SignUpFormSchema } from './rules';
 import { FirebaseError } from 'firebase/app';
 import { sendVerificationEmail } from '@/libs/emailUtils';
 import { BASE_URL, VERIFY_EMAIL } from '@/constant/routes';
+import { createUser } from '@/db/auth';
 
 interface IReturnType {
   errors?: {
     email?: string[] | undefined;
     password?: string[] | undefined;
-    displayName?: string[] | undefined;
+    name?: string[] | undefined;
     confirmPassword?: string[] | undefined;
   };
-  displayName?: string;
+  name?: string;
   email?: string;
   success?: boolean;
-  verificationFail?: string;
+  errorMsg?: string;
 }
 
-export async function signUpWithEmailPassword(
+export const signUpWithEmailPassword = async (
   state,
   formData: FormData
-): Promise<IReturnType | undefined> {
-  const displayName = formData.get('displayName') as string;
+): Promise<IReturnType | undefined> => {
+  const name = formData.get('name') as string;
   const email = formData.get('email') as string;
+  const password = formData.get('password') as string;
 
   const validatedFields = SignUpFormSchema.safeParse({
-    displayName,
+    name,
     email,
-    password: formData.get('password') as string,
+    password,
     confirmPassword: formData.get('confirmPassword') as string,
   });
 
   if (!validatedFields.success) {
     return {
       errors: validatedFields.error.flatten().fieldErrors,
-      displayName,
+      name,
       email,
     };
   }
 
   try {
-    const verificationUrl = `${BASE_URL}${VERIFY_EMAIL.replace(
-      '{{uid}}',
-      '1'
-    )}`;
-    await sendVerificationEmail(email, verificationUrl);
+    const result = await createUser({
+      name,
+      email,
+      password,
+      role: 'admin',
+    });
+
+    if (result.success) {
+      const verificationUrl = `${BASE_URL}${VERIFY_EMAIL.replace(
+        '{{uid}}',
+        result?.uid || ''
+      )}`;
+
+      await sendVerificationEmail(email, verificationUrl);
+
+      return { success: true, email, name };
+    }
+    // createUser with error
+    console.error(`[signUpWithEmailPassword] - ${result.errorMsg}`);
+    return { success: false, errorMsg: 'Email account is already in used' };
   } catch (error) {
-    console.error({ error });
-    return {
-      verificationFail: 'Sent email verification failed.',
-    };
+    const errorMsg = (error as Error).message;
+    console.error(`[signUpWithEmailPassword] - ${errorMsg}`);
+
+    return { success: false, errorMsg };
   }
-}
+};
 
 export async function signInAction(
   state,
