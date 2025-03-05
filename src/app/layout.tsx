@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from 'next/font/google';
 import '@styles/globals.css';
 import { APP_DESCRIPTION, APP_NAME } from '@constant/appConfig';
 import { Toaster } from '@components/ui/sonner';
+import { BASE_URL } from '@/constant/routes';
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
@@ -15,8 +16,12 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: APP_NAME,
+  title: {
+    template: `%s | ${APP_NAME}`,
+    default: APP_NAME,
+  },
   description: APP_DESCRIPTION,
+  metadataBase: new URL(BASE_URL),
 };
 
 export default function RootLayout({
