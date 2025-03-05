@@ -1,4 +1,4 @@
-import { POLICY, SIGN_UP, TERMS } from '@constant/routes';
+import { POLICY, SIGN_UP, TERMS } from '@/constants/routes';
 import Link from 'next/link';
 
 export function AuthFooter({ isLoginPage = true }: { isLoginPage?: boolean }) {

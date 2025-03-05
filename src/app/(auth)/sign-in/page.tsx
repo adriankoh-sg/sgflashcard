@@ -1,6 +1,6 @@
 import { LoginForm } from '@/app/(auth)/_components/loginForm';
-import FormWrapper from '../_components/formWrapper';
-import { AuthFooter } from '../_components/footer';
+import FormWrapper from '@/app/(auth)/_components/formWrapper'
+import { AuthFooter } from '@/app/(auth)/_components/footer';
 
 export default function LoginPage() {
   return (

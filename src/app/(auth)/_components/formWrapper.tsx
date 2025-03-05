@@ -1,7 +1,7 @@
 import React from 'react';
 import { Users } from 'lucide-react';
-import { COMPANY } from '@constant/appConfig';
-import { HOME_PAGE } from '@constant/routes';
+import { COMPANY } from '@/constants/appConfig';
+import { HOME_PAGE } from '@/constants/routes';
 import Link from 'next/link';
 import {
   Card,

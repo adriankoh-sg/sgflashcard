@@ -1,9 +1,9 @@
 'use client';
 import { useActionState, useEffect } from 'react';
-import { Button } from '@components/ui/button';
-import { Input } from '@components/ui/input';
-import { Label } from '@components/ui/label';
-import { signUpWithEmailPassword } from '@actions/auth';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { signUpWithEmailPassword } from '@/actions/auth';
 import Form from 'next/form';
 import { toast } from 'sonner';
 import { useRouter } from 'next/navigation';

@@ -1,10 +1,7 @@
 'use server';
-import { signInWithEmailAndPassword } from 'firebase/auth';
-import { firebaseAuth } from '@/libs/firebase';
 import { SignInFormSchema, SignUpFormSchema } from './rules';
-import { FirebaseError } from 'firebase/app';
-import { sendVerificationEmail } from '@/libs/emailUtils';
-import { BASE_URL, VERIFY_EMAIL } from '@/constant/routes';
+import { sendVerificationEmail } from '@/lib/emailUtils';
+import { BASE_URL, VERIFY_EMAIL } from '@/constants/routes';
 import { createUser } from '@/db/auth';
 
 interface IReturnType {
@@ -92,16 +89,10 @@ export async function signInAction(
   }
 
   try {
-    const result = await signInWithEmailAndPassword(
-      firebaseAuth,
-      email,
-      password
-    );
-
-    console.log('From Firebase:', result);
+    console.log('Login');
   } catch (error) {
-    const errorCode = (error as FirebaseError).code;
+    const errorCode = (error as Error).message;
 
-    console.log('From firebase: ', errorCode, error);
+    console.log('From firebase: ', errorCode);
   }
 }

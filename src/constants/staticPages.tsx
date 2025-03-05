@@ -1,5 +1,5 @@
 import { BookOpen, Mail, Zap } from 'lucide-react';
-import { CONTACT_US } from '@constant/appConfig';
+import { CONTACT_US } from '@/constants/appConfig';
 import Link from 'next/link';
 
 export const homePageContent = {
@@ -11,7 +11,7 @@ export const homePageContent = {
     icon: <Zap className="ml-2 size-4" />,
   },
   trustText: 'Use by tutors and students around Singapore',
-  imageSrc: '/assets/images/medium-shot-mother-girl-desk.jpg',
+  imageSrc: '/images/medium-shot-mother-girl-desk.jpg',
   imageAlt: 'placeholder',
   mail: {
     icon: <Mail className="size-4" />,

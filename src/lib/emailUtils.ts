@@ -1,7 +1,7 @@
 'use server';
 import nodemailer from 'nodemailer';
 import 'dotenv/config';
-import { APP_NAME, CONTACT_US } from '@/constant/appConfig';
+import { APP_NAME, CONTACT_US } from '@/constants/appConfig';
 
 const options = {
   host: process.env.SMTP_HOST,

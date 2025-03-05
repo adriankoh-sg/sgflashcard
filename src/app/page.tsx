@@ -1,9 +1,9 @@
 'use client';
 import Image from 'next/image';
-import { homePageContent } from '@constant/staticPagesContent';
-import { Button } from '@components/ui/button';
+import { homePageContent } from '@/constants/staticPages';
+import { Button } from '@/components/ui/button';
 import Link from 'next/link';
-import { SIGN_IN } from '@constant/routes';
+import { SIGN_IN } from '@/constants/routes';
 
 export default function Home() {
   return (

@@ -1,12 +1,12 @@
 'use client';
-import { cn } from '@libs/utils';
-import { Button } from '@components/ui/button';
-import { Input } from '@components/ui/input';
-import { Label } from '@components/ui/label';
+import { cn } from '@/lib/utils';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
 import Link from 'next/link';
-import { signInAction } from '@actions/auth';
+import { signInAction } from '@/actions/auth';
 import { useActionState, useEffect } from 'react';
-import { ALLOW_GOOGLE_OAUTH } from '@/constant/appConfig';
+import { ALLOW_GOOGLE_OAUTH } from '@/constants/appConfig';
 
 export function LoginForm({
   className,

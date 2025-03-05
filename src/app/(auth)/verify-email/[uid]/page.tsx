@@ -6,7 +6,7 @@ import {
   CardDescription,
   CardContent,
 } from '@/components/ui/card';
-import { HOME_PAGE, SIGN_IN } from '@/constant/routes';
+import { HOME_PAGE, SIGN_IN } from '@/constants/routes';
 import { getUserDetailsByUid, userSetVerifyEmail } from '@/db/auth';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
