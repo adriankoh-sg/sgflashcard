@@ -7,10 +7,10 @@ import { signUpWithEmailPassword } from '@/actions/auth';
 import Form from 'next/form';
 import { toast } from 'sonner';
 import { useRouter } from 'next/navigation';
+import { Separator } from '@/components/ui/separator';
+import { RolesType } from '@/db/model';
 
-export function SignUpForm({
-  ...props
-}: React.ComponentPropsWithoutRef<'div'>) {
+export function SignUpForm({ role }: { role?: RolesType }) {
   const [state, signUpAction, isPending] = useActionState(
     signUpWithEmailPassword,
     undefined
@@ -29,17 +29,17 @@ export function SignUpForm({
           description: state?.errorMsg,
         });
     }
-    console.log({ state });
   }, [router, state]);
 
   return (
-    <div className={'flex flex-col gap-6'} {...props}>
+    <div className={'flex flex-col gap-6'}>
       <Form action={signUpAction} disabled={isPending}>
         <div className="grid gap-6">
           <div className="grid gap-6">
             <div className="grid gap-2">
               <Label htmlFor="name">Full name</Label>
               <Input
+                id="name"
                 name="name"
                 type="name"
                 placeholder="you full name"
@@ -50,6 +50,7 @@ export function SignUpForm({
             <div className="grid gap-2">
               <Label htmlFor="email">Email</Label>
               <Input
+                id="email"
                 name="email"
                 type="email"
                 placeholder="m@example.com"
@@ -63,6 +64,7 @@ export function SignUpForm({
             <div className="grid gap-2">
               <Label htmlFor="password">Password</Label>
               <Input
+                id="password"
                 name="password"
                 type="password"
                 placeholder="password"
@@ -81,6 +83,7 @@ export function SignUpForm({
             <div className="grid gap-2">
               <Label htmlFor="confirmPassword">Confirm Password</Label>
               <Input
+                id="confirmPassword"
                 name="confirmPassword"
                 type="password"
                 placeholder="confirm password"
@@ -92,6 +95,10 @@ export function SignUpForm({
                 </div>
               )}
             </div>
+            <div className="flex items-center space-x-2">
+              <Separator orientation="horizontal" />
+            </div>
+            <Input id="role" name="role" type="hidden" value={role} />
             <Button type="submit" className="w-full" disabled={isPending}>
               Register
             </Button>

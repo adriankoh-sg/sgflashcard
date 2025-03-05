@@ -1,8 +1,9 @@
-import { usersTable, rolesEnum } from '../schema';
+import { usersTable } from '../schema';
 import { drizzle } from 'drizzle-orm/node-postgres';
 import { eq } from 'drizzle-orm';
 import crypto from 'crypto';
 import 'dotenv/config';
+import { RolesType } from '../model';
 
 const db = drizzle({
   connection: process.env.DATABASE_URL as string,
@@ -40,7 +41,7 @@ export const createUser = async ({
   name: string;
   email: string;
   password: string;
-  role: (typeof rolesEnum.enumValues)[number];
+  role: RolesType;
 }): Promise<ICreateUserRespone> => {
   const salt = crypto.randomBytes(16).toString('hex').normalize();
   const encrpytPassword = hashPassword(password, salt);

@@ -3,33 +3,23 @@ import { SignInFormSchema, SignUpFormSchema } from './rules';
 import { sendVerificationEmail } from '@/lib/emailUtils';
 import { BASE_URL, VERIFY_EMAIL } from '@/constants/routes';
 import { createUser } from '@/db/auth';
-
-interface IReturnType {
-  errors?: {
-    email?: string[] | undefined;
-    password?: string[] | undefined;
-    name?: string[] | undefined;
-    confirmPassword?: string[] | undefined;
-  };
-  name?: string;
-  email?: string;
-  success?: boolean;
-  errorMsg?: string;
-}
+import { RolesType } from '@/db/model';
 
 export const signUpWithEmailPassword = async (
-  state,
+  state: unknown,
   formData: FormData
-): Promise<IReturnType | undefined> => {
+) => {
   const name = formData.get('name') as string;
   const email = formData.get('email') as string;
   const password = formData.get('password') as string;
+  const confirmPassword = formData.get('confirmPassword') as string;
+  const role = formData.get('role') as RolesType;
 
   const validatedFields = SignUpFormSchema.safeParse({
     name,
     email,
     password,
-    confirmPassword: formData.get('confirmPassword') as string,
+    confirmPassword,
   });
 
   if (!validatedFields.success) {
@@ -37,6 +27,7 @@ export const signUpWithEmailPassword = async (
       errors: validatedFields.error.flatten().fieldErrors,
       name,
       email,
+      success: false,
     };
   }
 
@@ -45,7 +36,7 @@ export const signUpWithEmailPassword = async (
       name,
       email,
       password,
-      role: 'admin',
+      role,
     });
 
     if (result.success) {
@@ -69,10 +60,7 @@ export const signUpWithEmailPassword = async (
   }
 };
 
-export async function signInAction(
-  state,
-  formData: FormData
-): Promise<IReturnType | undefined> {
+export async function signInAction(state, formData: FormData) {
   const email = formData.get('email') as string;
   const password = formData.get('password') as string;
 
