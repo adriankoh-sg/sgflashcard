@@ -1,24 +1,19 @@
-import type { Metadata } from 'next';
-import { Geist, Geist_Mono } from 'next/font/google';
-import '@/styles/globals.css';
-import { APP_DESCRIPTION, APP_NAME } from '@/constants/appConfig';
 import { Toaster } from '@/components/ui/sonner';
+import { APP_DESCRIPTION, APP_NAME } from '@/constants/appConfig';
 import { BASE_URL } from '@/constants/routes';
+import { cn } from '@/lib/utils';
+import '@/styles/globals.css';
+import type { Metadata } from 'next';
+import { Albert_Sans } from 'next/font/google';
 
-const geistSans = Geist({
-  variable: '--font-geist-sans',
-  subsets: ['latin'],
-});
-
-const geistMono = Geist_Mono({
-  variable: '--font-geist-mono',
+const albertSans = Albert_Sans({
   subsets: ['latin'],
 });
 
 export const metadata: Metadata = {
   title: {
     template: `%s | ${APP_NAME}`,
-    default: APP_NAME,
+    default: `${APP_NAME}`,
   },
   description: APP_DESCRIPTION,
   metadataBase: new URL(BASE_URL),
@@ -30,10 +25,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
+    <html lang="en" suppressHydrationWarning>
+      <body className={cn([albertSans.className, 'antialiased'])}>
         {children}
         <Toaster position="top-center" richColors />
       </body>
